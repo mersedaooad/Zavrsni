@@ -1,0 +1,82 @@
+@(budzet: List[Budzet], budzetForm: Form[Budzet])
+@import helper._
+@import scala.Predef; var x= 0.0
+@import scala.Predef; var y= 0.0
+@import scala.Predef; var z= 0.0
+@import scala.Predef; var provjera= 0
+@import scala.Predef; var brojac= 0
+<link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/bootstrap.css")' />
+@main("Kucni budzet") {
+<div class="jumbotron">
+<h1> Pregled troškova </h1>
+
+    <div aria-busy="true" aria-label="Loading" role="progressbar" class="pomjeren">
+        <div class="swing">
+            <div class="swing-l"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div class="swing-r"></div>
+        </div>
+        <div class="shadow">
+            <div class="shadow-l"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div class="shadow-r"></div>
+        </div>
+    </div>
+</div>
+    </div>
+<div id="prikazListe">
+@try{
+<table class="table table-striped">
+    <thead>
+    <th>Redni br.</th>
+    <th>Opis</th>
+    <th>Izlaz</th>
+    <th>Ulaz</th>
+    <th>Datum</th>
+    <th></th>
+    <th></th>
+    </thead>
+    @for(i <- budzet) {
+    @{x=i.cifra+x}
+    @{y=i .suma+y}
+    <tr>
+        <td>@{brojac+1}</td>
+        <td>@i.opis</td>
+        @{if(i.cifra<0){provjera=1}}
+        @if(i.cifra<0){<td bgcolor="red">@i.cifra</td>}
+        @if(i.cifra>=0){<td>@i.cifra</td>}
+        <td>@i.suma</td>
+        <td>@i.datum.format("dd MMM YYYY")</td>
+        @form(routes.Application.deleteTask(i.id)){
+        <td> <input type="submit" value="Obriši" class="btn btn-danger"> </td>
+        }
+        @form(routes.Application.updateTask(i.id)){
+        <td><input type="submit" value="Promijeni" class="btn btn-danger"> </td>
+        }
+    </tr>
+    @{brojac=brojac+1}
+    }
+</table>
+}
+
+<p>Ukupno potrošeno @x KM</p>
+@{z=y-x}
+@{if(z<0)
+{<div class="alert alert-dismissible alert-warning"><p>Provjerite ulaz, stanje u budžetu je negativno</p></div>}}
+    @{if(provjera==1)
+    {<div class="alert alert-dismissible alert-warning"><p>Izlaz nije ispravno unesen</p></div>}}
+<p>Preostalo u budžetu  @{y-x} KM</p>
+
+@form(routes.Application.tasks()){
+<input type="submit" class="btn btn-primary" value="Nazad">
+}
+</div>
+}

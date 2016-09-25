@@ -1,0 +1,47 @@
+@(budzet: List[Budzet], budzetForm: Form[Budzet], id:Long)
+@import helper._
+<link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/bootstrap.css")' />
+<div id="prikaziUIstomRedu">
+    @main("Kucni budzet") {
+    <div class="jumbotron">
+        <h1>Dodaj troškove</h1>
+
+        <div aria-busy="true" aria-label="Loading" role="progressbar" class="pomjeren">
+            <div class="swing">
+                <div class="swing-l"></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="swing-r"></div>
+            </div>
+            <div class="shadow">
+                <div class="shadow-l"></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="shadow-r"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dodaj">
+    @form(routes.Application.newTaskEdit(id)){
+    @inputText(budzetForm("opis"),'_label -> "Opis:")
+    @inputText(budzetForm("cifra"),'_label -> "Iznos:")
+
+    <input type="date" name="datum"><br><br>
+
+    <input type="submit" class="btn btn-primary" value="Promijeni">
+    }
+    @form(routes.Application.prikaziTask()){
+    <input type="submit" class="btn btn-primary" value="Prikaži listu">
+    }
+    @form(routes.Application.tasks()){
+    <input type="submit" class="btn btn-primary" value="Nazad">
+    }
+</div>
+}

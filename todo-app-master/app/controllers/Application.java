@@ -58,27 +58,28 @@ public class Application extends Controller {
           return redirect(routes.Application.newTask());}
     }
   public static Result newTaskEdit(Long id){
-    Budzet.delete(id);
+
     Form<Budzet> filledForm = budzetForm.bindFromRequest();
     if(filledForm.hasErrors()) {
       return badRequest(
-              views.html.dodaj.render(Budzet.all(), filledForm)
+              views.html.dodajPromijeni.render(Budzet.all(), filledForm,id)
       );
     } else {
+      Budzet.delete(id);
       Budzet.create(filledForm.get());
       flash("success", String.format("Uspjesno ste dodali"));
     return redirect(routes.Application.prikaziTask());}
   }
   public static Result dodajUBudzetPromijeni(Long id){
-    Budzet.delete(id);
     Form<Budzet> filledForm = budzetForm.bindFromRequest();
     if(filledForm.hasErrors()) {
       return badRequest(
-              views.html.dodaj.render(Budzet.all(), filledForm)
+              views.html.dodajUBudzetPromijeni.render(Budzet.all(), filledForm,id)
       );
     } else {
+      Budzet.delete(id);
       Budzet.create(filledForm.get());
-      flash("success", String.format("Uspjesno ste dodali"));
+     // flash("success", String.format("Uspjesno ste dodali"));
       return redirect(routes.Application.prikaziTask());}
   }
     public static Result deleteTask(Long id){
